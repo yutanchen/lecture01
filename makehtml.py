@@ -18,6 +18,6 @@ for i, row in df.iterrows():
     if row['K'] in doctors:
         f.write('<tr>')
         for j in ['A','B','K']:f.write('<td width=' + str(mywidth[j]) + '>' + str(row[j]) +'</td>')
-        f.write('<br></tr>\n')
+        f.write('</tr><tr><td>　</td></tr>\n')
 f.write('</table></body></html>')
 
