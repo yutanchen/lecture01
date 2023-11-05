@@ -15,6 +15,9 @@ f.write('<table style="font-size:8px; line-height:50px;">\n')
 for i, row in df.iterrows():
     if row['K'] in doctors:
         f.write('<tr>')
-        for j in ['A','B','K']:f.write('<td width=' + str(mywidth[j]) + '>' + str(row[j]) +'</td>')
+        for j in ['A','B','K']:
+            if (isinstance(row[j], datetime)): row[j]=row[j].date()
+            if (str(row[j])=='nan'):f.write('<td width=' + str(mywidth[j]) + '> </td>')
+            else:f.write('<td width=' + str(mywidth[j]) + '>' + str(row[j]) +'</td>')
         f.write('</tr>\n')
 f.write('</table></body></html>')
