@@ -1,5 +1,5 @@
 from pandas import read_excel                                                                                                                             
-from datetime import date
+from datetime import date, datetime
 from sys import argv
 
 # fill
