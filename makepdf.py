@@ -30,6 +30,6 @@ for i, row in df.iterrows():
             x += mywidth[title]
 
 
-f.output('tuto1.pdf')
+f.output('out.pdf')
 
 
