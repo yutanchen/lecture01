@@ -3,7 +3,7 @@ from datetime import date, datetime
 from sys import argv
 from fpdf import FPDF
 
-doctors=['王名儒', '郭光宇']
+doctors=['王名儒', '郭光宇'] 
 titles=['A','B','C','D','E','F','G','H','I','J','K']
 mywidth={'A':15,'B':15,'C':15,'D':15,'E':15,'F':15,'G':15,'H':15,'I':15,'J':15,'K':15}
 df = read_excel(argv[1], names=titles, usecols="A:K")
@@ -34,16 +34,16 @@ f.set_author('Jules Verne')
 f.add_font('myF', '', '/usr/share/fonts/noto-cjk/NotoSansCJK-Regular.ttc')
 f.set_font('myF', '', 8)
 
-y0, N = 40, 0
+y0, N = 40, 0 # y0: y of first content (special titles excluded)
 for i, row in df.iterrows():
-    if row['K']=='授課教師':SP=row
-    elif row['K'] in doctors: 
-        if N%15==0:
+    if row['K']=='授課教師':SP=row # change 'K', '授課教師'
+    elif row['K'] in doctors: # change 'K'
+        if N%15==0: # 15: 15 lines per page
             f.add_page()
-            f.print_line(25, SP)
+            f.print_line(25, SP) # 25: y of special titles
             y = y0
         f.print_line(y, row)
-        y += 15
+        y += 15 # 15: height of each line
         N += 1
 f.output('out.pdf')
 
