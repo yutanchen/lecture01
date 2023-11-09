@@ -29,9 +29,9 @@ class PDF(FPDF):
             x += mywidth[title]
 
 f = PDF()
-f.set_title('Patient List')
-f.set_author('Jules Verne')
-f.add_font('myF', '', '/usr/share/fonts/noto-cjk/NotoSansCJK-Regular.ttc')
+f.set_title('Patient List') # title
+f.set_author('Jules Verne') # author
+f.add_font('myF', '', '/usr/share/fonts/noto-cjk/NotoSansCJK-Regular.ttc') 
 f.set_font('myF', '', 8)
 
 y0, N = 40, 0 # y0: y of first content (special titles excluded)
