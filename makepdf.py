@@ -3,33 +3,48 @@ from datetime import date, datetime
 from sys import argv
 from fpdf import FPDF
 
-# fill
-doctors=['授課教師','王名儒', '郭光宇']
+doctors=['王名儒', '郭光宇']
 titles=['A','B','C','D','E','F','G','H','I','J','K']
 mywidth={'A':15,'B':15,'C':15,'D':15,'E':15,'F':15,'G':15,'H':15,'I':15,'J':15,'K':15}
 df = read_excel(argv[1], names=titles, usecols="A:K")
 
-f = FPDF('P', 'mm', (210, 297))
-#f.add_font('myF', '', 'DejaVuSansCondensed.ttf', uni=True)
-f.add_page()
-f.set_font('Times', 'B', 20)
-f.cell(210, 15, 'Patient List ( '+str(date.today())+' )', align = 'C')
-
-y = 15
-f.add_font('myF', '', '/usr/share/fonts/noto-cjk/NotoSansCJK-Regular.ttc')
-f.set_font('myF', '', 8)
-for i, row in df.iterrows():
-    if row['K'] in doctors:
-        x = 10
-        y += 10
+class PDF(FPDF):
+    def header(self):
+        self.set_font_size(8)
+        [self.set_xy(-30,+5), self.cell(30, 10, self.author, align = 'C')]
+        [self.set_xy(-30,+10), self.cell(30, 10, str(date.today()), align = 'C')]
+        self.set_font_size(20)
+        [self.set_xy(+0,+0), self.cell(0, 20, self.title, align = 'C')]
+    def footer(self):
+        self.set_y(-15) 
+        self.set_font('Times', '', 8) 
+        self.cell(0, 10, 'Page %s' % self.page_no(), align = 'C')
+    def print_line(self, y, row):
+        x = 10 
         for j, title in enumerate(titles):
-            f.set_xy(x,y)
             if (isinstance(row[title], datetime)): row[title]=row[title].date()
             if (str(row[title])=='nan'): row[title]= ''
-            f.cell(200, 20, str(row[title]), align = 'L')
+            self.set_xy(x,y)
+            self.cell(200, 20, str(row[title]), align = 'L')
             x += mywidth[title]
 
+f = PDF()
+f.set_title('Patient List')
+f.set_author('Jules Verne')
+f.add_font('myF', '', '/usr/share/fonts/noto-cjk/NotoSansCJK-Regular.ttc')
+f.set_font('myF', '', 8)
 
+y0, N = 40, 0
+for i, row in df.iterrows():
+    if row['K']=='授課教師':SP=row
+    elif row['K'] in doctors: 
+        if N%15==0:
+            f.add_page()
+            f.print_line(25, SP)
+            y = y0
+        f.print_line(y, row)
+        y += 15
+        N += 1
 f.output('out.pdf')
 
 
