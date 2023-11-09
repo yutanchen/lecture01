@@ -28,7 +28,7 @@ class PDF(FPDF):
             self.cell(200, 20, str(row[title]), align = 'L')
             x += mywidth[title]
 
-f = PDF()
+f = PDF() # 這行名稱注意
 f.set_title('Patient List') # title
 f.set_author('Jules Verne') # author
 f.add_font('myF', '', '/usr/share/fonts/noto-cjk/NotoSansCJK-Regular.ttc') 
